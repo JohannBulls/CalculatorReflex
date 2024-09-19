@@ -18,28 +18,30 @@ public class HttpConnection {
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
 
+        //The following invocation perform the connection implicitly before getting the code
         int responseCode = con.getResponseCode();
         System.out.println("GET Response Code :: " + responseCode);
-        String responseStr = "Error: ";
-        if (responseCode == HttpURLConnection.HTTP_OK) {
+
+        String responseStr = "Error";
+
+        if (responseCode == HttpURLConnection.HTTP_OK) { // success
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     con.getInputStream()));
             String inputLine;
-            StringBuilder response = new StringBuilder();
+            StringBuffer response = new StringBuffer();
 
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
             in.close();
 
-            // print result
             responseStr = response.toString();
-            System.out.println(responseStr);
+            System.out.println(response.toString());
         } else {
             System.out.println("GET request not worked");
         }
         System.out.println("GET DONE");
         return responseStr;
-    }
 
+    }
 }
