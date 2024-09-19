@@ -13,35 +13,30 @@ public class HttpConnection {
 
     public static String getResponse(String request) throws IOException {
 
-        URL obj = new URL(GET_URL + request);
+        URL obj = new URL(GET_URL + request);  // La codificación de parámetros ya se maneja en el cliente
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
 
-        //The following invocation perform the connection implicitly before getting the code
         int responseCode = con.getResponseCode();
         System.out.println("GET Response Code :: " + responseCode);
-
-        String responseStr = "Error";
-
+        String responseString = "Error";
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    con.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
 
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
             in.close();
 
-            responseStr = response.toString();
-            System.out.println(response.toString());
+            responseString = response.toString();
+            System.out.println(responseString);
         } else {
             System.out.println("GET request not worked");
         }
         System.out.println("GET DONE");
-        return responseStr;
-
+        return responseString;
     }
 }
